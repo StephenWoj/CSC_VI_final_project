@@ -1,54 +1,36 @@
-function validateForm() {
+document.getElementById('registrationForm').addEventListener('submit', function(event) {
     let isValid = true;
 
     // Reset error messages
-    document.getElementById("usernameError").textContent = "";
-    document.getElementById("emailError").textContent = "";
-    document.getElementById("passwordError").textContent = "";
-    document.getElementById("confirmPasswordError").textContent = "";
+    document.querySelectorAll('.error').forEach(function(element) {
+        element.textContent = '';
+    });
 
     // Username validation
-    const username = document.getElementById("username").value;
-    if (username.trim() === "") {
-        document.getElementById("usernameError").textContent = "Username is required";
+    const username = document.getElementById('username').value;
+    if (username.length < 3) {
+        document.getElementById('usernameError').textContent = 'Username must be at least 3 characters.';
         isValid = false;
     }
 
-    // Email validation
-    const email = document.getElementById("email").value;
-    if (email.trim() === "") {
-        document.getElementById("emailError").textContent = "Email is required";
-        isValid = false;
-    } else if (!isValidEmail(email)) {
-        document.getElementById("emailError").textContent = "Invalid email format";
-        isValid = false;
-    }
-
-    // Password validation
-    const password = document.getElementById("password").value;
-    if (password.trim() === "") {
-        document.getElementById("passwordError").textContent = "Password is required";
-        isValid = false;
-    } else if (password.length < 6) {
-        document.getElementById("passwordError").textContent = "Password must be at least 6 characters long";
+   // Password validation
+    const password = document.getElementById('password').value;
+    if (password.length < 6) {
+        document.getElementById('passwordError').textContent = 'Password must be at least 6 characters.';
         isValid = false;
     }
 
     // Confirm password validation
-    const confirmPassword = document.getElementById("confirmPassword").value;
-    if (confirmPassword.trim() === "") {
-        document.getElementById("confirmPasswordError").textContent = "Confirm password is required";
-        isValid = false;
-    } else if (password !== confirmPassword) {
-        document.getElementById("confirmPasswordError").textContent = "Passwords do not match";
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    if (password !== confirmPassword) {
+        document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.';
         isValid = false;
     }
-
-    return isValid;
-}
-
-function isValidEmail(email) {
-    // Basic email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
+    
+    if (!isValid) {
+      event.preventDefault(); // Prevent form submission if validation fails
+    } else {
+        document.getElementById('registrationSuccess').textContent = "Registration Successful!";
+        document.getElementById('registrationFailure').textContent = "";
+    }
+});
