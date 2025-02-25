@@ -1,18 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-<title>Registration Form</title>
-<link rel="stylesheet" href="{% static 'style/style.css' %}">
-</head>
-<body>
-    {% include 'base.html' %}
-    <h2>Registration Form</h2>
-    <form id="registration-form" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
-<script src = "{% static 'register.js' %}"></script>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<h2>Register</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+{% endblock %}

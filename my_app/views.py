@@ -1,45 +1,49 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponseRedirect
-#from django.contrib import messages
-from django.contrib.auth import authenticate, login
-#from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm#, ProfileUpdateForm, CreateTask
-#from django.views.decorators.csrf import csrf_exempt
-#from django.urls import reverse
-
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from .forms import UserRegisterForm, ProfileUpdateForm
 # Create your views here.
-def index_page(request):
+def index(request):
     return render(request, 'index.html')
 
-def login(request):
-    return render(request, 'login.html')
-
 def register(request):
-        if request.method == 'POST':
-            form = UserRegisterForm(request.POST)
-            if form.is_valid():
-                user = form.save()
-                username = form.cleaned_data.get('username')
-                password = form.cleaned_data.get('password')
-                user = authenticate(username=username, password=password)
-                login(request, user)
-                return JsonResponse({'status': 'success'})
-            else:
-                return JsonResponse({'status': 'error', 'errors': form.errors})
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('index')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'register.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return JsonResponse({'success': True, 'redirect_url': '/'})  # Redirect after login
         else:
-             form = UserRegisterForm()
-        return render(request, 'register.html', {'form': form})
-#@login_required
-#def createTask(request):
+            return JsonResponse({'success': False, 'errors': form.errors})  # Send errors as JSON
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
 
-    #form = CreateTask()
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return render(request, 'profile.html', {'form': form, 'message': 'Profile has been updated successfully!'})
+    else:
+        form = ProfileUpdateForm(instance=request.user.profile)
+    
+    return render(request, 'profile.html', {'form': form})
 
-    #if request.method == 'POST':
-        #form = CreateTask(request.POST)
-
-        #if form.is_valid():
-            #form.save()
-            #return redirect('')
-            
-    #context = {'form':form}
-    #return render(request, 'profile/create-task.html', context=context)
+def logout_view(request):
+    logout(request)
+    return redirect('index')

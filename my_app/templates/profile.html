@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="profile">
+    <div class="content-profile">
+        <h2>Profile</h2>
+        <img src="{{ user.profile.image.url }}" width="150", height="150">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+<script src="{% static 'js/profile.js' %}"></script>
