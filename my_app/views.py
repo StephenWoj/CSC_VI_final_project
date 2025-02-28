@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, ProfileUpdateForm
+from .models import Profile
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -16,11 +17,15 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            profile, created = Profile.objects.get_or_create(user=user)
+            if not profile.image:
+                profile.image = "default.jpg"
+                profile.save()
+                
             login(request, user)
             return JsonResponse({'success': True})  
         else:
             return JsonResponse({'success': False, 'error': form.errors.as_text()})
-   
     form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
 
