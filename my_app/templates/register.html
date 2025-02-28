@@ -1,9 +1,15 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-<h2>Register</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
+<div class="register">
+    <div class="content-register">
+        <h2>Register</h2>
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</div>
+<script src="{% static 'js/register.js' %}"></script>
 {% endblock %}

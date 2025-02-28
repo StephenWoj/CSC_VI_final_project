@@ -4,12 +4,27 @@
 <div class="profile">
     <div class="content-profile">
         <h2>Profile</h2>
-        <img src="{{ user.profile.image.url }}" width="150", height="150">
+
+        <!-- Display Current Profile Image -->
+        <img src="{{ user.profile.image.url }}" width="200" height="200" alt="Profile Image">
+
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+
+            <label for="id_username">Username:</label>
+            <input type="text" name="username" id="id_username" value="{{ user.username }}" required>
+            <br>
+
+            <label for="id_password">New Password:</label>
+            <input type="password" name="password" id="id_password">
+
             {{ form.as_p }}
+
             <button type="submit">Update</button>
         </form>
+        {% if message %}
+            <p style="color: green; background-color:rgb(230, 255, 230); width: fit-content;">{{ message }}</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

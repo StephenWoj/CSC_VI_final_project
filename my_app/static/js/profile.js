@@ -3,6 +3,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.querySelector("input[type='file']");
     const form = document.querySelector("form");
     const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+    const usernameInput = document.querySelector("input[name='username']");
+    const passwordInput = document.querySelector("input[name='password']");
+    
+    // Add password toggle
+    const togglePassword = document.createElement("span");
+    togglePassword.style.cursor = "pointer";
+    togglePassword.style.marginLeft = "10px";
+    passwordInput.parentNode.insertBefore(togglePassword, passwordInput.nextSibling);
+
+    togglePassword.addEventListener("click", function () {
+        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+    });
 
     // Live preview of selected image
     if (fileInput) {
@@ -22,6 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent full-page reload
 
+        // Simple validation
+        if (!usernameInput.value.trim()) {
+            alert("Username cannot be empty!");
+            return;
+        }
+
         const formData = new FormData(form);
         const submitButton = form.querySelector("button");
         submitButton.disabled = true;
@@ -32,11 +50,20 @@ document.addEventListener("DOMContentLoaded", function () {
             body: formData,
             headers: { "X-CSRFToken": csrfToken },
         })
-        .then(response => response.text())  // Expecting HTML response
+        .then(response => response.text()) // Expecting HTML response
         .then(html => {
-            document.open();  
-            document.write(html);  // Replace current page content with new HTML
-            document.close();
+            // Create a temporary container to extract the new content
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+
+            // Replace only the profile content instead of reloading the entire page
+            document.querySelector(".content-profile").innerHTML = tempDiv.querySelector(".content-profile").innerHTML;
+
+            submitButton.disabled = false;
+            submitButton.textContent = "Update";
+
+            // Scroll to top smoothly to show the message
+            window.scrollTo({ top: 0, behavior: "smooth" });
         })
         .catch(error => {
             console.error("Error:", error);
