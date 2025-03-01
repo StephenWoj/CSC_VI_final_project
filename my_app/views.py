@@ -18,8 +18,7 @@ def register(request):
             if not profile.image:
                 profile.image = "default.jpg"
                 profile.save()
-                
-            login(request, user)
+            
             return JsonResponse({'success': True})  
         else:
             return JsonResponse({'success': False, 'error': form.errors.as_text()})
@@ -57,7 +56,7 @@ def profile(request):
             form.save()
 
         user.save()
-        return render(request, 'profile.html', {'form': form, 'message': 'Profile has been updated successfully!'})
+        return redirect('profile') 
 
     else:
         form = ProfileUpdateForm(instance=request.user.profile)
