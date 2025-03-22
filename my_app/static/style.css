@@ -22,6 +22,11 @@ h2 {
     text-decoration: none;
     margin-right: 5px;
 }
+.paths a:hover {
+    background-color: rgb(95, 122, 171);
+    color: whitesmoke;
+}
+
 .title {
     text-align: left;
     font-size: 21px;
@@ -29,16 +34,30 @@ h2 {
     margin-left: 10px;
 }
 
-.main-page{
-  background-color:lightgray;
-  border: 10px inset gray; 
-  padding: 5px;
-  width: 32%;
-  margin-top: 100px;
-  margin-left: 397px;
-  text-align: center;
-  font-size: 20px;
+.main-page {
+    background-color:lightgray;
+    border: 10px inset gray; 
+    width: 32%;
+    text-align: center;
+    margin-top: 100px;
+    margin-left: 397px;
+    font-size: 20px;
+    line-height: 40px;
+  }
+  
+.main-page a {
+      font-family: serif;
+      background-color: cornflowerblue;
+      color: white;
+      text-decoration: none;
+      padding: 5px;
 }
+
+.main-page a:hover {
+      background-color: rgb(95, 122, 171);
+      color: whitesmoke;
+}
+
 .register {
     background-color:lightgray;
     border: 10px inset gray;
@@ -79,3 +98,48 @@ h2 {
       margin-left: 10px;
       margin-bottom: 10px;
   }
+
+  .create-task {
+    background-color:lightgray;
+    border: 10px inset gray; 
+    width: 50%;
+    margin-top: 50px;
+    margin-left: 20px; 
+}
+
+.content-create-task {
+    margin-left: 5px;
+    margin-bottom: 20px; 
+}
+
+.view-task {
+    background-color:lightgray;
+    border: 10px inset gray; 
+    width: 60%;
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+#taskForm, #update-task-form {
+    font-size: 20px;
+    font-family: serif;
+}
+
+.container-delete-task a {
+    background-color: green;
+    color: white;
+    font-size: 15px;
+    padding: 5px;
+    text-decoration: none;
+    border: 3px inset gray;
+    margin-left: 5px;
+    }
+
+#delete-task-btn {
+        background-color: rgb(172, 28, 28);
+        color: ghostwhite;
+        font-size: 15px;
+        margin-top: 5px;
+        margin-bottom: 3px;
+        margin-left: 3px;
+}

@@ -1,10 +1,11 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, ProfileUpdateForm
-from .models import Profile
+from .forms import UserRegisterForm, ProfileUpdateForm, CreateTask
+from .models import Profile, Task
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -62,6 +63,73 @@ def profile(request):
         form = ProfileUpdateForm(instance=request.user.profile)
 
     return render(request, 'profile.html', {'form': form})
+
+@login_required
+def createTask(request):
+
+    form = CreateTask()
+
+    if request.method == 'POST':
+        form = CreateTask(request.POST)
+
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
+            return JsonResponse({"success": True, "message": "Task Created, Go View Your Task In View Current Tasks!"})
+            #return redirect('/')
+        return JsonResponse({"success": False, "error": "Form submission failed."})
+    
+    context = {'form': form}
+
+    return render(request, 'create-task.html', context)
+
+@login_required
+def viewTask(request):
+
+    current_user = request.user.id
+
+    task = Task.objects.all().filter(user=current_user)
+
+    context = {'task': task}
+
+
+    return render(request, 'view-task.html', context=context)
+
+@login_required
+def updateTask(request, pk):
+
+    task = Task.objects.get(id=pk)
+
+    form = CreateTask(instance=task)
+    
+    if request.method == 'POST':
+        form = CreateTask(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            
+            return JsonResponse({'success': True, 'redirect_url': '/view-task'})
+        else:
+            return JsonResponse({'success': False, 'error': form.errors.as_json()}, status=400)
+
+    return render(request, 'update-task.html', {'form': form, 'task': task})
+
+@login_required
+def deleteTask(request, pk):
+    task = Task.objects.get(id=pk)
+
+    if request.method == 'POST':
+        task.delete()
+        
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  
+            return JsonResponse({'success': True})  
+            
+        return redirect('/view-task')
+        
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+    
+    return render(request, 'delete-task.html', {'task': task})
 
 def logout_view(request):
     logout(request)

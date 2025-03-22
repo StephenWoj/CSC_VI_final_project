@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="view-task">
+    <div class="content-view-task">
+        <h2 style="text-align: center;">Delete This task?</h2>
+        <div class="container-delete-task">
+            <form method="POST" autocomplete="off">
+                {% csrf_token %}
+                <p style="font-size: 25px;font-family: sans-serif;"> Do you want to delete this task?</p>
+                <br>
+
+                <a href="{% url 'viewTask' %}">Go back</a>
+                <br> <br>
+                <button type="button" id="delete-task-btn">Delete Task</button>
+            </form>    
+        </div>
+    </div>
+</div> 
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const taskId = "{{ task.id|default:'' }}";
+    console.log("Task ID from Django:", taskId);
+
+    if (!taskId.trim()) {
+        console.error("Task ID is missing!");
+        alert("Error: Task ID is missing.");
+        return;
+    }
+
+    document.getElementById("delete-task-btn").addEventListener("click", function () {
+        const url = `/delete-task/${taskId}`;  // Ensure correct URL format
+        console.log("Submitting delete request to:", url);
+
+        const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrfToken,
+                "X-Requested-With": "XMLHttpRequest",  // Mark request as AJAX
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message || "Task deleted! :(");
+                window.location.href = "/view-task";  // Redirect to tasks list
+            } else {
+                alert("Error deleting task: " + (data.error || "Unknown error"));
+            }
+        })
+        .catch(error => {
+            console.error("Fetch Error:", error);
+            alert("Unexpected error occurred.");
+        });
+    });
+});
+</script>
+{% endblock %}

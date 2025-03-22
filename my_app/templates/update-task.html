@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="create-task">
+    <div class="content-create-task">
+        <h2 style="text-align: center;">Update your task!</h2>
+        <form id="update-task-form" method="POST" autocomplete="off">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="button" id="update-task-btn">Submit Update</button>
+        </form>    
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const taskId = "{{ task.id|safe }}";  // Get task ID from Django
+        console.log("Task ID:", taskId);  // Debugging: Ensure taskId is correct
+
+        document.getElementById("update-task-btn").addEventListener("click", function() {
+            if (!taskId) {
+                console.error("Task ID is missing!");
+                alert("Error: Task ID is missing.");
+                return;
+            }
+
+            const url = `/update-task/${taskId}`;  // Correct URL
+            console.log("Submitting update to:", url);  // Debug URL
+
+            const form = document.getElementById("update-task-form");
+            const formData = new FormData(form);
+            const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+                body: formData
+            })
+            .then(response => {
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    throw new Error("Received non-JSON response. Check Django response.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert("Task Has Been Updated!");
+                    window.location.href = "/view-task";  // Ensure this is correct
+                } else {
+                    alert("Error: Fillout Title or Content")
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    });
+</script>
+{% endblock %}
