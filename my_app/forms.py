@@ -20,5 +20,4 @@ class CreateTask(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['title', 'content',]
-        #exclude = ['user']
+        fields = ['title', 'content']

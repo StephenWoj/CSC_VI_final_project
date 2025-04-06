@@ -1,66 +1,105 @@
 body {
     background-color: lightblue;
-}
+ }
 
-nav {
-   background-color: lightgray;
-   height: 120px;
-   border: 5px inset gray;
-   text-align: right;
-}
+ nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: lightgray;
+    border: 5px inset gray;
+    border-radius: 20px; 
+ }
 
 h2 {
     text-decoration: underline;
     font-size: 30px;
     font-family:Arial, Helvetica, sans-serif;
-}
-.paths a {
+ }
+
+.navbar {
+    list-style: none;
+    display: flex;
+ }
+
+.navbar li{
+    margin: 0 5px;
+ }
+
+.navbar a {
     background-color: cornflowerblue;
     color: white;
     padding: 10px 15px;
     border: 10px;
     text-decoration: none;
-    margin-right: 5px;
-}
-.paths a:hover {
+ }
+
+.navbar a:hover {
     background-color: rgb(95, 122, 171);
     color: whitesmoke;
-}
+ }
 
 .title {
-    text-align: left;
     font-size: 21px;
     font-family: sans-serif;
-    margin-left: 10px;
 }
 
 .main-page {
     background-color:lightgray;
-    border: 10px inset gray; 
-    width: 32%;
-    text-align: center;
+    border: 10px inset gray;
+    border-radius: 20px;  
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    align-items: center;
     margin-top: 100px;
-    margin-left: 397px;
-    font-size: 20px;
-    line-height: 40px;
+    margin-left: 350px;
   }
   
-.main-page a {
-      font-family: serif;
-      background-color: cornflowerblue;
-      color: white;
-      text-decoration: none;
-      padding: 5px;
+.user-tasks {
+    display: flex;
+    flex-direction: column; 
 }
 
-.main-page a:hover {
-      background-color: rgb(95, 122, 171);
-      color: whitesmoke;
-}
+ .user-tasks a {
+    background-color: cornflowerblue;
+    color: white;
+    text-decoration: none;
+    font-family: serif;
+    align-self: center;
+    margin-top: 8px;
+    margin-bottom: 5px;
+    padding: 7px;
+ }
+
+.user-tasks a:hover {
+    background-color: rgb(95, 122, 171);
+    color: whitesmoke;
+ }
+
+ .about-web {
+    background-color:lightgray;
+    border: 10px inset gray;
+    border-radius: 20px;  
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    margin-left: 50px;
+    margin-top: 20px;
+ }
+
+.about-content {
+    font-size: 20px;
+    font-family: sans-serif;
+    margin-left: 5px;
+  }
 
 .register {
     background-color:lightgray;
     border: 10px inset gray;
+    border-radius: 20px; 
+    display: flex;
+    flex-direction: column;
     width: 47%;
     margin-top: 50px;
     margin-left: 20px;
@@ -74,21 +113,27 @@ h2 {
 
 .login {
     background-color:lightgray;
-    border: 10px inset gray; 
+    border: 10px inset gray;
+    border-radius: 20px; 
+    display: flex;
+    flex-direction: column; 
     width: 32%;
     margin-top: 50px;
     margin-left: 20px; 
-}
+ }
 
 .content-login {
     margin-left: 10px;
     margin-bottom: 10px; 
-}
+ }
 
 .profile {
     background-color:lightgray;
     border: 10px inset gray; 
-    width: 32%;
+    border-radius: 20px; 
+    display: flex;
+    flex-direction: column;
+    width: 45%;
     margin-top: 50px;
     margin-left: 20px;
   
@@ -99,25 +144,53 @@ h2 {
       margin-bottom: 10px;
   }
 
-  .create-task {
+.create-task {
     background-color:lightgray;
-    border: 10px inset gray; 
+    border: 10px inset gray;
+    border-radius: 20px;
     width: 50%;
     margin-top: 50px;
     margin-left: 20px; 
-}
+ }
 
 .content-create-task {
     margin-left: 5px;
     margin-bottom: 20px; 
-}
+ }
 
 .view-task {
     background-color:lightgray;
     border: 10px inset gray; 
+    border-radius: 20px; 
     width: 60%;
     margin-top: 50px;
     margin-left: 20px;
+}
+
+#update-btn {
+    background-color: lightblue; 
+    color: blue; 
+    border-radius: 10px; 
+    text-decoration: none; 
+    margin-left: 6px;
+}
+
+#update-btn:hover{
+    background-color: blue;
+    color: lightblue;
+}
+  
+#delete-btn {
+    background-color: rgb(247, 201, 201);
+    color: red; 
+    border-radius: 10px; 
+    text-decoration: none; 
+    margin-left: 6px;
+}
+
+#delete-btn:hover {
+    background-color: red;
+    color: rgb(247, 201, 201);
 }
 
 #taskForm, #update-task-form {
@@ -126,20 +199,30 @@ h2 {
 }
 
 .container-delete-task a {
-    background-color: green;
-    color: white;
+    color: green; 
+    background-color:rgb(230, 255, 230);
     font-size: 15px;
     padding: 5px;
     text-decoration: none;
     border: 3px inset gray;
     margin-left: 5px;
-    }
+}
+
+.container-delete-task a:hover{
+    background-color: green;
+    color: white;
+}
 
 #delete-task-btn {
-        background-color: rgb(172, 28, 28);
-        color: ghostwhite;
-        font-size: 15px;
-        margin-top: 5px;
-        margin-bottom: 3px;
-        margin-left: 3px;
-}
+    color: red; 
+    background-color:rgb(255, 230, 230); 
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+    margin-left: 3px;
+ }
+
+ #delete-task-btn:hover {
+    background-color: red;
+    color: black;
+ }

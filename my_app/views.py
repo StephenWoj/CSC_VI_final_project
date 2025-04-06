@@ -8,7 +8,13 @@ from .forms import UserRegisterForm, ProfileUpdateForm, CreateTask
 from .models import Profile, Task
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    context = {
+        "user_authenticated": request.user.is_authenticated,
+    }
+    return render(request, 'index.html', context)
+
+def about(request):
+    return render(request, 'about.html')
 
 def register(request):
     if request.method == 'POST':
@@ -80,7 +86,9 @@ def createTask(request):
             #return redirect('/')
         return JsonResponse({"success": False, "error": "Form submission failed."})
     
-    context = {'form': form}
+    context = {'form': form,
+                "user_authenticated": request.user.is_authenticated,
+                }
 
     return render(request, 'create-task.html', context)
 
