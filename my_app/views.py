@@ -68,7 +68,7 @@ def profile(request):
     else:
         form = ProfileUpdateForm(instance=request.user.profile)
 
-    return render(request, 'profile.html', {'form': form})
+    return render(request, 'users/profile.html', {'form': form})
 
 @login_required
 def createTask(request):
@@ -83,14 +83,14 @@ def createTask(request):
             task.user = request.user
             task.save()
             return JsonResponse({"success": True, "message": "Task Created, Go View Your Task In View Current Tasks!"})
-            #return redirect('/')
+            
         return JsonResponse({"success": False, "error": "Form submission failed."})
     
     context = {'form': form,
                 "user_authenticated": request.user.is_authenticated,
                 }
 
-    return render(request, 'create-task.html', context)
+    return render(request, 'users/create-task.html', context)
 
 @login_required
 def viewTask(request):
@@ -102,7 +102,7 @@ def viewTask(request):
     context = {'task': task}
 
 
-    return render(request, 'view-task.html', context=context)
+    return render(request, 'users/view-task.html', context=context)
 
 @login_required
 def updateTask(request, pk):
@@ -120,7 +120,7 @@ def updateTask(request, pk):
         else:
             return JsonResponse({'success': False, 'error': form.errors.as_json()}, status=400)
 
-    return render(request, 'update-task.html', {'form': form, 'task': task})
+    return render(request, 'users/update-task.html', {'form': form, 'task': task})
 
 @login_required
 def deleteTask(request, pk):
@@ -137,7 +137,7 @@ def deleteTask(request, pk):
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  
         return JsonResponse({'error': 'Invalid request method'}, status=400)
     
-    return render(request, 'delete-task.html', {'task': task})
+    return render(request, 'users/delete-task.html', {'task': task})
 
 def logout_view(request):
     logout(request)

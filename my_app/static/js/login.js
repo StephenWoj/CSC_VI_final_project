@@ -4,6 +4,32 @@ document.addEventListener("DOMContentLoaded", function () {
     const errorDiv = document.createElement("div"); // Error message container
     errorDiv.style.marginTop = "10px";
     form.prepend(errorDiv); // Add error div above the form fields
+    
+    // Find the password input field
+    const passwordInput = document.querySelector('input[type="password"]');
+
+    if (passwordInput) {
+        // Create toggle button
+        const togglePassword = document.createElement("span");
+        togglePassword.textContent = "Show Password";
+        togglePassword.style.fontSize = "13px";
+        togglePassword.style.fontStyle = "italic";
+        togglePassword.style.fontWeight = "bold";
+        togglePassword.style.textDecoration = "underline";
+        togglePassword.style.cursor = "pointer";
+        togglePassword.style.marginLeft = "8px";
+
+        // Insert the toggle after the password input
+        passwordInput.parentNode.insertBefore(togglePassword, passwordInput.nextSibling);
+
+        // Toggle visibility
+        togglePassword.addEventListener("click", function () {
+            const isPassword = passwordInput.type === "password";
+            passwordInput.type = isPassword ? "text" : "password";
+            togglePassword.textContent = isPassword ? "Hide Password" : "Show Password";
+        });
+    }
+    
 
     form.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent default form submission

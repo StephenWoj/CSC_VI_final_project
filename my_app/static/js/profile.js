@@ -6,14 +6,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const usernameInput = document.querySelector("input[name='username']");
     const passwordInput = document.querySelector("input[name='password']");
     
+    // Save initial form values
+    const initialState = {
+        username: usernameInput.value,
+        password: passwordInput.value,
+        profileImageSrc: profileImage.src,
+    };
+
     // Add password toggle
     const togglePassword = document.createElement("span");
+    togglePassword.textContent = "Show Password";
+    togglePassword.style.fontSize = "13px";
+    togglePassword.style.fontStyle = "italic";
+    togglePassword.style.fontWeight = "bold";
+    togglePassword.style.textDecoration = "underline";
     togglePassword.style.cursor = "pointer";
     togglePassword.style.marginLeft = "10px";
     passwordInput.parentNode.insertBefore(togglePassword, passwordInput.nextSibling);
 
     togglePassword.addEventListener("click", function () {
+        const isPassword = passwordInput.type === "password";
         passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        togglePassword.textContent = isPassword ? "Hide Password" : "Show Password";
     });
 
     // Live preview of selected image
@@ -40,6 +54,24 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // Check for changes
+        const currentState = {
+            username: usernameInput.value,
+            password: passwordInput.value,
+            profileImageSrc: profileImage.src,
+        };
+
+        const hasChanges =
+            currentState.username !== initialState.username ||
+            currentState.password !== initialState.password ||
+            currentState.profileImageSrc !== initialState.profileImageSrc;
+
+        if (!hasChanges) {
+            // Prevent update if no changes were made
+            console.log("No changes detected.");
+            return; 
+        }   
+
         const formData = new FormData(form);
         const submitButton = form.querySelector("button");
         submitButton.disabled = true;
@@ -50,21 +82,15 @@ document.addEventListener("DOMContentLoaded", function () {
             body: formData,
             headers: { "X-CSRFToken": csrfToken },
         })
-        .then(response => response.text()) // Expecting HTML response
-        .then(html => {
-            // Create a temporary container to extract the new content
-            const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = html;
 
-            // Replace only the profile content instead of reloading the entire page
-            document.querySelector(".content-profile").innerHTML = tempDiv.querySelector(".content-profile").innerHTML;
-
-            submitButton.disabled = false;
-            submitButton.textContent = "Update";
-
-            // Scroll to top smoothly to show the message
-            window.scrollTo({ top: 0, behavior: "smooth" });
+        .then(response => {
+            if(hasChanges) {
+                    // If changes where made
+                    alert("Profile Has Been Updated!⬆");
+                    window.location.href = "/profile";
+                }
         })
+        
         .catch(error => {
             console.error("Error:", error);
             alert("An unexpected error occurred.");

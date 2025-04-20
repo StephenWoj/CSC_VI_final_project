@@ -8,7 +8,9 @@
         {% for tsk in task %}
         <div class="container-view-task" style="border: 5px inset gray; background-color: lavender; width: 60%; margin-left: 10px; margin-bottom: 20px; margin-top:15px; line-height: 1.3; font-size: 35px;">
 
-            <p style="text-align: right; font-weight: bold; font-size: 20px; margin-right: 5px;">{{ tsk.date_posted|date:"F d, Y" }}</p>
+            <p style="text-align: right; font-weight: bold; font-size: 20px; margin-right: 5px;">Created On: {{ tsk.date_posted|date:"F d, Y" }}</p>
+
+            <p style="text-align: right; font-weight: bold; font-size: 20px; margin-right: 5px;"> Last Updated: {{ tsk.date_updated|date:"F d, Y" }}</p>
 
             <p style="margin-left: 6px; margin-top: 6px; margin-bottom: 6px;">{{ tsk.title }}</p>
             <hr>

@@ -6,7 +6,7 @@
         <h2>Profile</h2>
 
         <!-- Display Current Profile Image -->
-        <img src="{{ user.profile.image.url }}" width="200" height="200" alt="Profile Image">
+        <img src="{{ user.profile.image.url }}" width="260" height="260" alt="Profile Image">
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -22,9 +22,6 @@
 
             <button type="submit">Update</button>
         </form>
-        {% if message %}
-            <p style="color: green; background-color:rgb(230, 255, 230); width: fit-content;">{{ message }}</p>
-        {% endif %}
     </div>
 </div>
 <script src="{% static 'js/profile.js' %}"></script>

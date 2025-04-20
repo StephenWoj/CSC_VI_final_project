@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert(data.message || "Task deleted! :(");
+                alert(data.message || "Task deleted!");
                 window.location.href = "/view-task";  // Redirect to tasks list
             } else {
                 alert("Error deleting task: " + (data.error || "Unknown error"));

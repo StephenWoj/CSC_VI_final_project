@@ -5,6 +5,37 @@ document.addEventListener("DOMContentLoaded", function () {
     messageDiv.style.marginTop = "10px";
     form.prepend(messageDiv); // Add message div above the form fields
 
+    // Find the password input field
+    const passwordInput = document.querySelector('input[type="password"]');
+
+    if (passwordInput) {
+        // Create a container for input and toggle to keep them on the same line
+        const wrapper = document.createElement("div");
+        wrapper.style.alignItems = "center";
+
+        passwordInput.parentNode.insertBefore(wrapper, passwordInput);
+        wrapper.appendChild(passwordInput);
+
+        // Create toggle button
+        const togglePassword = document.createElement("span");
+        togglePassword.textContent = "Show Password";
+        togglePassword.style.fontSize = "13px";
+        togglePassword.style.fontStyle = "italic";
+        togglePassword.style.fontWeight = "bold";
+        togglePassword.style.textDecoration = "underline";
+        togglePassword.style.cursor = "pointer";
+        togglePassword.style.marginLeft = "8px";
+
+        wrapper.appendChild(togglePassword);
+
+        // Toggle visibility
+        togglePassword.addEventListener("click", function () {
+            const isPassword = passwordInput.type === "password";
+            passwordInput.type = isPassword ? "text" : "password";
+            togglePassword.textContent = isPassword ? "Hide Password" : "Show Password";
+        });
+    }
+
     form.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent full-page reload
 
