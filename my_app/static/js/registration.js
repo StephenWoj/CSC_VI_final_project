@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
             submitButton.textContent = "Register";
 
             if (data.success) {
-                messageDiv.innerHTML = `<p style="color: green; background-color:rgb(230, 255, 230); width: fit-content;">Registration successful! You can now log in.</p>`;
+                messageDiv.innerHTML = `<p style="color: green; background-color:rgb(230, 255, 230); width: fit-content;">Registration successful! You can now login.</p>`;
                 form.reset(); // Clear form fields
             } else {
                 messageDiv.innerHTML = `<p style="color: red; background-color:rgb(255, 230, 230); width: fit-content;">${data.error}</p>`; // Show error messages

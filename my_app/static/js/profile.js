@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => {
             if(hasChanges) {
                     // If changes where made
-                    alert("Profile Has Been Updated!⬆");
+                    alert("Profile Has Been Updated!");
                     window.location.href = "/profile";
                 }
         })
